@@ -107,19 +107,17 @@
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
 
-    var duplicateCheck = function (item, index){
-      console.log(item + " is item");
-      console.log(index + " is index");
-      if(_.indexOf(array, item) < index){
-        return false;
-      }
-      else{
-        return true;
-      }
-    }
 
-    
-  return _.filter(array, duplicateCheck);
+    var uniqArray = [];
+
+    _.each(array, function(item){
+      if(_.indexOf(uniqArray, item) <0){
+        uniqArray.push(item);
+      }
+
+    });
+
+    return uniqArray;
 
   };
 
