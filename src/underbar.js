@@ -49,14 +49,14 @@
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
      if(Array.isArray(collection)){
-      for(var i=0; i< collection.length; i++){
-        iterator(collection[i], i, collection);
+      for(var index=0; index< collection.length; index++){
+        iterator(collection[index], index, collection);
       }
      }
 
      else{
-      for(var key in collection){
-        iterator(collection[key], key, collection);
+      for(var index in collection){
+        iterator(collection[index], index, collection);
       }
      }
   };
@@ -83,8 +83,11 @@
 
     var newArray = [];
 
+
+
     _.each(collection, function(item, index){
-      if(test(item)){
+     
+      if(test(item, index)){
         newArray.push(item);
       }
     })
@@ -107,17 +110,12 @@
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
 
+    var duplicateCheck = function(item, index){
+    
+      return _.indexOf(array, item) === index;
+    }
 
-    var uniqArray = [];
-
-    _.each(array, function(item){
-      if(_.indexOf(uniqArray, item) <0){
-        uniqArray.push(item);
-      }
-
-    });
-
-    return uniqArray;
+    return _.filter(array, duplicateCheck);
 
   };
 
