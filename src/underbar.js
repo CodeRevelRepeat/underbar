@@ -209,14 +209,19 @@
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
 
-//Continue here.  Does not pass all tests yet.  
-    return _.reduce(collection, function(truthTest, item){
-        if(!truthTest){
+//Continue here.  Does not pass all tests yet. 
+  if(collection.length < 1){
+    return true;
+  } 
+
+
+    return _.reduce(collection, function(iterator, item){
+        if(!iterator){
           return false;
         }
-        return true;
-    }, true);
-
+       
+    });
+    return true;
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
