@@ -207,19 +207,30 @@
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
 
-//Continue here.  Does not pass all tests yet. 
+
   if(collection.length < 1){
     return true;
   } 
 
+  if(collection.length === 1){
+    return collection[0] == true;
+  }
 
-    return _.reduce(collection, function(iterator, item){
-        if(!iterator){
-          return false;
-        }
-       
-    });
-    return true;
+  if(iterator == undefined){
+    iterator = _.identity;
+  }
+
+  return _.reduce(collection, function(accumulator, item){
+      if(accumulator && iterator(item)){
+        accumulator = true;
+      }
+      else{
+        accumulator = false;
+      }
+        return accumulator === true;
+    }, true);
+
+
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
