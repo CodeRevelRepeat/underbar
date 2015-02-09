@@ -212,13 +212,15 @@
     return true;
   } 
 
-  if(collection.length === 1){
-    return collection[0] == true;
-  }
 
   if(iterator == undefined){
     iterator = _.identity;
   }
+
+  if(collection.length === 1){
+    return iterator(collection[0]) == true;
+  }
+
 
   return _.reduce(collection, function(accumulator, item){
       if(accumulator && iterator(item)){
@@ -237,6 +239,18 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    //if(_.every(collection, iterator)){
+     // return true;
+    //}
+
+    _.each(collection, function(item, index){
+
+      if(_.every(item, iterator)){
+        return true;
+      }
+
+      });
+      return false;
   };
 
 
