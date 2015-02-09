@@ -218,7 +218,10 @@
   }
 
   if(collection.length === 1){
-    return iterator(collection[0]) == true;
+    if(iterator === _.identity && collection[0] != false && collection[0] != null && collection[0] != undefined && collection[0] != NaN){
+      return true;
+    }
+    return iterator(collection[0]) === true;
   }
 
 
@@ -242,15 +245,22 @@
     //if(_.every(collection, iterator)){
      // return true;
     //}
+    var testArray = []
 
-    _.each(collection, function(item, index){
-
-      if(_.every(item, iterator)){
-        return true;
+    _.each(collection, function(item){
+      var holdingArray = [item];
+      if(_.every(holdingArray, iterator)){
+        testArray.push("found one");
       }
 
       });
-      return false;
+      
+      if(testArray.length >= 1){
+        return true;
+      }
+      else{
+        return false;
+      }
   };
 
 
