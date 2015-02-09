@@ -242,9 +242,7 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
-    //if(_.every(collection, iterator)){
-     // return true;
-    //}
+ 
     var testArray = []
 
     _.each(collection, function(item){
@@ -283,11 +281,31 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+      var newPropObjects = Array.prototype.slice.call(arguments, 1);
+      _.each(newPropObjects, function(sourceObject){
+        for(var key in sourceObject){
+          obj[key] = sourceObject[key];
+        }
+      });
+
+      return obj;
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+     var newPropObjects = Array.prototype.slice.call(arguments, 1);
+      _.each(newPropObjects, function(sourceObject){
+        for(var key in sourceObject){
+          if(obj[key] === undefined){
+          obj[key] = sourceObject[key];
+          }
+        }
+      });
+
+      return obj;
+
   };
 
 
