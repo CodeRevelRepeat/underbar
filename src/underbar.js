@@ -349,6 +349,28 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+
+    var calledArguments = {};
+    var arrayTest = [];
+  
+    return function(){
+    var target = Array.prototype.slice.call(arguments);
+    //var target = _.identity.apply(this, arguments);
+    console.log("this is target: " + target);
+    //var alreadyCalled = _.contains(calledArguments, target);
+    var alreadyCalled = _.contains(arrayTest, target);
+    console.log("this is alreadyCalled: " + alreadyCalled);
+
+    if(alreadyCalled){
+      return calledArguments[target];
+    }
+    else{
+      arrayTest.push(target);
+      calledArguments[target] = func.apply(this, arguments);
+      return calledArguments[target];
+      }
+    };
+
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -358,6 +380,10 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+      var args = Array.prototype.slice.call(arguments, 2);
+
+      return setTimeout(function(){return func.apply(null, args);}, wait);
+
   };
 
 
@@ -372,6 +398,22 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    //This makes array copy but not needed for my implementation:
+    //var arrayCopy = array.slice();
+    
+    var shuffledArray = [];
+    var length = array.length;
+    var random;
+
+    _.each(array, function(item, index){
+          random = Math.floor(Math.random() * length);
+        while(shuffledArray[random] != undefined){
+          random = Math.floor(Math.random() * length);
+         }
+          shuffledArray[random] = item;
+    });
+
+    return shuffledArray;
   };
 
 
