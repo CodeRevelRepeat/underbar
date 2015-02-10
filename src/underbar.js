@@ -173,10 +173,10 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
     
-
-    if(collection.length === 1){
-      return collection[0];
-    }
+    //This was my error in reduce, causing error in _.contains causing error in _.memoize
+    //if(collection.length === 1){
+     // return collection[0];
+    //}
 
     if(accumulator == undefined){
       var accumulator = collection.shift();
@@ -350,25 +350,40 @@
   // instead if possible.
   _.memoize = function(func) {
 
+    //Note: these must be created outside the internal function so that pushed items can be saved 
+    //even after internal function is done running.
     var calledArguments = {};
-    var arrayTest = [];
-  
-    return function(){
-    var target = Array.prototype.slice.call(arguments);
-    //var target = _.identity.apply(this, arguments);
-    console.log("this is target: " + target);
-    //var alreadyCalled = _.contains(calledArguments, target);
-    var alreadyCalled = _.contains(arrayTest, target);
-    console.log("this is alreadyCalled: " + alreadyCalled);
 
-    if(alreadyCalled){
-      return calledArguments[target];
-    }
-    else{
-      arrayTest.push(target);
+    //I created an array of the target "keys" to check whether a key had been used.  Can also be done with 
+    //just checking _.contains on calledArguments but since _.contains checks the values in an object 
+    //rather than the keys, it seemed less intuitive than checking an array of just the keys.  
+    //But since it is redundant, I have commented out the arrayTest code.
+    //var arrayTest = [];  
+
+   
+    
+    
+    return function(){
+  
+    //This definition of target also works but arguments[0] seems more straightforward since we can assume one argument.
+    //var target = _.identity.apply(this, arguments);
+    var target = arguments[0];
+   
+    var alreadyCalled = _.contains(calledArguments, calledArguments[target]);
+
+    //var alreadyCalled = _.contains(arrayTest, target);
+   
+
+      if(!alreadyCalled){
+      //arrayTest.push(target);
       calledArguments[target] = func.apply(this, arguments);
       return calledArguments[target];
       }
+
+      else{
+      return calledArguments[target];
+      }
+
     };
 
   };
@@ -400,6 +415,9 @@
   _.shuffle = function(array) {
     //This makes array copy but not needed for my implementation:
     //var arrayCopy = array.slice();
+
+    //Note that the third test of this function will fail if the random shuffle results
+    //in the new array matching the original array which is possible with a random shuffle.
     
     var shuffledArray = [];
     var length = array.length;
