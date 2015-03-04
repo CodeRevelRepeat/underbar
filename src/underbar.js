@@ -538,34 +538,25 @@
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
 
-    // if(result === undefined){
-    //   result = [];
-    // }
-
-    // var iterator = function(a, b){
-    //   return a.concat(b);
-    // }
-
-    // return _.reduce(nestedArray, iterator, result);
-
     if(result === undefined){
       var result = [];
     }
 
     var recursiveFlatten = function(array){
 
-    
+      _.each(array, function(item){
+        if(!Array.isArray(item)){
+          result.push(item)
+        } else {
 
+          recursiveFlatten(item);
+        }
 
-    if(Array.isArray(array)){
-        recursiveFlatten(array);
+      });
 
     }
 
-
-
-    }
-
+    recursiveFlatten(nestedArray);
 
     return result;
   };
