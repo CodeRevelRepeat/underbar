@@ -499,9 +499,18 @@
    var args = Array.prototype.slice.call(arguments);
 
    var newArray = [];
+   var longestInnerArrayLength = 0;
+
+
+   _.each(args, function(item){
+     if(item.length > longestInnerArrayLength){
+       longestInnerArrayLength = item.length;
+     }
+
+   })
 
    for(var i=0; i< args.length; i++){
-     for(var j=0; j< args.length; j++){
+     for(var j=0; j< longestInnerArrayLength; j++){
 
         if(newArray[j] === undefined){
         
@@ -514,7 +523,7 @@
         }
 
         innerArray.push(args[i][j]);
-        
+
       }
         
     }
@@ -528,6 +537,37 @@
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+
+    // if(result === undefined){
+    //   result = [];
+    // }
+
+    // var iterator = function(a, b){
+    //   return a.concat(b);
+    // }
+
+    // return _.reduce(nestedArray, iterator, result);
+
+    if(result === undefined){
+      var result = [];
+    }
+
+    var recursiveFlatten = function(array){
+
+    
+
+
+    if(Array.isArray(array)){
+        recursiveFlatten(array);
+
+    }
+
+
+
+    }
+
+
+    return result;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
