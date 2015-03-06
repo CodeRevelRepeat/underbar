@@ -591,6 +591,17 @@
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+
+    var otherArray = _.flatten(Array.prototype.slice.call(arguments, 1));
+
+    return _.filter(array, function(item){
+      if(_.indexOf(otherArray, item) < 0){
+        return true;
+      }
+
+    });
+
+
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
