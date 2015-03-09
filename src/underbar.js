@@ -610,5 +610,35 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+
+    var lastCallTime = [];
+   
+
+    return function(){
+      
+      var currentTime = Date.now();
+
+      if(lastCallTime.length < 1 || 
+        currentTime - lastCallTime[lastCallTime.length -1] >= wait){
+        lastCallTime.push(currentTime);
+        return func;
+
+      } else {
+
+        var nextScheduledCall = lastCallTime[lastCallTime.length -1] + wait;
+
+        var waitLeft = nextScheduledCall - currentTime;
+
+        lastCallTime.push(nextScheduledCall);
+
+        return _.delay(func, waitLeft);
+
+      }
+
+
+
+    }
+
+
   };
 }());
